@@ -55,33 +55,13 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
-        <Grid Height="120" Margin="10,0,10,70" VerticalAlignment="Bottom">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
 
-            <TextBlock Padding="4" Name="cycleIndicatorText" HorizontalAlignment="Center" Text="Testing cycle 0 of 0"
-                       VerticalAlignment="Center" FontWeight="Thin" FontSize="18" Opacity="0.8" />
-            <TextBlock Padding="4" Name="elapsedTimeText" HorizontalAlignment="Center"
-                       Text="Time elapsed: 0 minutes and 0 seconds" VerticalAlignment="Center" FontWeight="Thin"
+
+
+        <TextBlock Padding="4" Name="elapsedTimeText" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                       Text="Time elapsed: 0 minutes and 0 seconds"  FontWeight="Thin" Margin="0,20"
                        FontSize="18" Opacity="0.8" Grid.Column="1" />
-            <TextBlock Padding="4" Name="previousAdhesionText" HorizontalAlignment="Center" Text="Last adhesion:"
-                       VerticalAlignment="Center" FontWeight="Thin" FontSize="18" Opacity="0.8" Grid.Row="1" />
-            <TextBlock Padding="4" Name="lastPreloadText" HorizontalAlignment="Center" Text="Last preload:"
-                       VerticalAlignment="Center" FontWeight="Thin" FontSize="18" Opacity="0.8" Grid.Row="1"
-                       Grid.Column="1" />
-            <TextBlock Padding="4" Name="maximumAdhesionText" HorizontalAlignment="Center" Text="Maximum adhesion:"
-                       VerticalAlignment="Center" FontWeight="Thin" FontSize="18" Opacity="0.8" Grid.Row="2"
-                       Grid.Column="1" />
-            <TextBlock Padding="4" Name="averageAdhesionText" HorizontalAlignment="Center" Text="Average adhesion:"
-                       VerticalAlignment="Center" FontWeight="Thin" FontSize="18" Opacity="0.8" Grid.Row="2" />
-        </Grid>
+
     </Grid>
 
 

@@ -21,10 +21,8 @@ namespace AdhesionTest
             InitializeComponent();
             MainViewModel.normalForceLabel = normalForceLabel;
             MainViewModel.shearForceLabel = shearForceLabel;
-            trial.adhesionAdded += adhesionAddedEvent;
             this.trial = trial;
-            trial.updateCycleCount();
-            updateTrialStatus(trial);
+
 
             var myTimer = new Timer();
             myTimer.Elapsed += timer_Tick;
@@ -44,31 +42,14 @@ namespace AdhesionTest
             Dispatcher.Invoke(() =>
             {
                 var timeDiff = DateTime.Now - startTime;
-                elapsedTimeText.Text = "Time elapsed: " + ((int) timeDiff.TotalMinutes).ToString("0") + " minutes and " +
-                                       (timeDiff.TotalSeconds%60).ToString("0") + " seconds";
+                elapsedTimeText.Text = "Time elapsed: " + ((int)timeDiff.TotalMinutes).ToString("0") + " minutes and " +
+                                       (timeDiff.TotalSeconds % 60).ToString("0") + " seconds";
             });
         }
 
-        /// <summary>
-        ///     Updates the label handling the indication of which cycle the test is currently on
-        /// </summary>
-        private void updateTrialStatus(trialManager trial)
-        {
-            cycleIndicatorText.Text = "Testing Cycle " + (trial.adhesionValues.Count + 1) + " of " + trial.totalCycles;
-        }
 
-        private void adhesionAddedEvent(object sender, adhesionAddedEventArgs e)
-        {
-            //This is done with a dispatcher for thread safety
-            Dispatcher.Invoke(() =>
-            {
-                averageAdhesionText.Text = "Average adhesion: " + e.adhesionValues.Average();
-                maximumAdhesionText.Text = "Maximum adhesion: " + e.adhesionValues.Min();
-                previousAdhesionText.Text = "Last adhesion: " + e.adhesionValues[e.adhesionValues.Count - 1];
-                lastPreloadText.Text = "Last preload: " + e.preloadValues[e.preloadValues.Count - 1];
-                updateTrialStatus(trial);
-            });
-        }
+
+        
 
         private void stopTrialClick(object sender, RoutedEventArgs e)
         {

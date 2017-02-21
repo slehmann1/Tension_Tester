@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdhesionTest", "AdhesionTest\AdhesionTest.csproj", "{FFD94632-298A-484E-9DE7-99F94AD14E79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TensionTest", "TensionTest\TensionTest.csproj", "{FFD94632-298A-484E-9DE7-99F94AD14E79}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EED7DE47-BD68-4A97-8891-12E00F487E94}"
 	ProjectSection(SolutionItems) = preProject
 		Performance1.psess = Performance1.psess
 	EndProjectSection
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Adhesion Test Installer", "Adhesion Test Installer\Adhesion Test Installer.vdproj", "{4116E884-DC78-4BE5-8A16-BB1A0C96FD8E}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Tension Test Installer", "Tension Test Installer\Tension Test Installer.vdproj", "{4116E884-DC78-4BE5-8A16-BB1A0C96FD8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -66,35 +66,19 @@ namespace AdhesionTest
             MainWindow.mainFrame.Navigate(new calibration());
         }
 
-        private void linearTrialButton_Click(object sender, RoutedEventArgs e)
+        private void trialButtonClick(object sender, RoutedEventArgs e)
         {
-            var trial = new linearTrialManager();
-            trial = (linearTrialManager)updateTrialSettings(trial);
-            MainWindow.mainFrame.Navigate(new linearTrial(trial));
+            var trial = new trialManager();
+            trial = updateTrialSettings(trial);
+            MainWindow.mainFrame.Navigate(trial);
         }
 
-        private void radialTrialButton_Click(object sender, RoutedEventArgs e)
-        {
-            var trial = new radialTrialManager();
-            trial = (radialTrialManager)updateTrialSettings(trial);
-            MainWindow.mainFrame.Navigate(new radialTrial(trial));
-        }
+
 
         private trialManager updateTrialSettings(trialManager trial)
         {
-            trial.incomingVelocity = Convert.ToDouble(incomingVelocityBox.Text);
-            trial.outgoingVelocity = Convert.ToDouble(outgoingVelocityBox.Text);
-            trial.incomingVerticalAngle = Convert.ToDouble(incomingAngleBox.Text);
-            trial.outgoingVerticalAngle = Convert.ToDouble(outgoingAngleBox.Text);
-            trial.numberOfTrials = Convert.ToInt32(numberOfTrialsBox.Text);
-            trial.preloadWaitTime = Convert.ToDouble(waitPreloadBox.Text);
-            trial.collectFullData = Convert.ToBoolean(fullDataBox.IsChecked);
-            trial.reverseDirection = Convert.ToBoolean(reverseDirection.IsChecked);
-            trial.withdrawDistance = Convert.ToDouble(withdrawDistanceBox.Text);
-            trial.dragVelocity = Convert.ToDouble(dragSpeedBox.Text);
-            trial.accelerateMotion = Convert.ToBoolean(acceleratedMotionBox.IsChecked);
-            trial.acceleratedSpeed = Convert.ToDouble(accelSpeedBox.Text);
-            
+            trial.velocity = Convert.ToDouble(velocityBox.Text);
+            trial.collectFullData = Convert.ToBoolean(fullDataBox.IsChecked);            
             return trial;
         }
 
