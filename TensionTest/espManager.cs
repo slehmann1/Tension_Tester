@@ -5,7 +5,7 @@ using System.IO.Ports;
 using System.Threading;
 using System.Windows;
 
-namespace AdhesionTest
+namespace TensionTest
 {
     /// <summary>
     /// This class interfaces with an esp301 motor controller. Documentation for this device can be found at: http://assets.newport.com/webDocuments-EN/images/ESP301_User_manual.PDF

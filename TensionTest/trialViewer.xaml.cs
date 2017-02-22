@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Timer = System.Timers.Timer;
 
-namespace AdhesionTest
+namespace TensionTest
 {
     /// <summary>
     ///     Interaction logic for trialViewer.xaml

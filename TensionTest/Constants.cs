@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AdhesionTest
+namespace TensionTest
 {
     public static class Constants
     {
@@ -72,7 +72,7 @@ namespace AdhesionTest
 
         public static string FILENAME
         {
-            get { return "\\adhesion_test"; }
+            get { return "\\tension_test"; }
         }
 
         public static string FILEEXTENSION

@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Threading;
 using NationalInstruments.DAQmx;
 
-namespace AdhesionTest
+namespace TensionTest
 {
     /// <summary>
     ///     DAQ=Data acquisition. This class interfaces with the National instruments hub, to collect information from the

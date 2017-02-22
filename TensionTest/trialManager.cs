@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows;
-using AdhesionTest.Properties;
+using TensionTest.Properties;
 
-namespace AdhesionTest
+namespace TensionTest
 {
     public class trialManager
     {
-        public delegate void adhesionAddedEvent(object sender, adhesionAddedEventArgs e);
+        
 
         //Definitions of the axes, they are defined this way for backwards compatibility
         protected const int ZAXIS = 1;
@@ -44,7 +44,6 @@ namespace AdhesionTest
             esp.motorOn(YAXIS);
             esp.motorOn(ZAXIS);
             MainWindow.errorThrownEvent += errorThrown;
-            runTrial();
         }
 
         /// <summary>
@@ -54,18 +53,15 @@ namespace AdhesionTest
         /// </summary>
         public bool overrideTrialDefaults { set; protected get; } = false;
 
-        /// <summary>
-        /// Whether or not to reverse the direction of the vertical axis for the trial. This allows the probe to be pressed up against a slide for viewing with a microscope
-        /// </summary>
+        
 
 
         public bool collectFullData { get; set; }
         public double velocity { protected get; set; }
 
-        public int totalCycles { get; protected set; }
-        public int currentCycle { get; protected set; } = 1;
 
-        public event adhesionAddedEvent adhesionAdded; //This event is used for interfacing with the UI
+
+        
 
 
         /// <summary>
@@ -106,6 +102,24 @@ namespace AdhesionTest
         {
             Console.WriteLine("Trial Began");
             MainViewModel.dataAcquirer.dataAcquiredEvent += dataAcquired;
+
+            baselineManager.establishDeflectionBaseline();
+            Console.Write("DEFLECTION ESTABLISHED");
+            //begin downwards motion
+            esp.motorOff(XAXIS);
+            esp.setVelocity(ZAXIS, velocity/1000);
+            esp.moveIndefinitely(ZAXIS, espManager.travelOption.negative);
+            Console.Write("MOVING");
+            //run deflection before return to prevent return from being immediately triggered
+            baselineManager.waitForDeflection();
+            Console.Write("WAITING");
+            baselineManager.waitForBaselineReturn();
+
+            //has returned to baseline, the trial is complete
+            esp.stopMotion(ZAXIS);
+            Console.Write("Trial Complete");
+            writeToFile();
+            trialComplete();
         }
 
         /// <summary>
@@ -149,7 +163,7 @@ namespace AdhesionTest
         }
 
         /// <summary>
-        ///     An event that fires when data has been acquired, checks whether or not the preload has been reached
+        ///     An event that fires when data has been acquired
         /// </summary>
         protected virtual void dataAcquired(object Sender, EventArgs e)
         {
@@ -237,11 +251,7 @@ namespace AdhesionTest
             return ""; //no specifier needed, don't return one
         }
 
-        //derived classes cannot invoke the event itself, do like so
-        protected void invokeAdhesionAddedEvent(object Sender, adhesionAddedEventArgs e)
-        {
-            adhesionAdded(Sender, e);
-        }
+   
 
         private espManager generateEspManager()
         {
@@ -271,14 +281,10 @@ namespace AdhesionTest
             esp.motorOff(2);
             esp.motorOff(3);
 
-            Thread t = new Thread(() => MessageBox.Show("Please wait, resetting the motor controller."));
-            t.Start();
-            esp.stopThreadUntilOperationsComplete();
-            esp.resetController();
-            esp.disable();
-            esp.closeConnection();
-            Thread.Sleep(20000); //Allows time for the motor controller to reset
-            esp = generateEspManager();//Reopen the port, as it will have been closed
+            esp.stopMotion(ZAXIS);
+            Console.Write("Trial Complete");
+            writeToFile();
+            trialComplete();
 
         }
 
@@ -308,19 +314,5 @@ namespace AdhesionTest
         }
     }
 
-    /// <summary>
-    ///     These eventargs are used for interfacing with the UI
-    /// </summary>
-    public class adhesionAddedEventArgs : EventArgs
-    {
-        public adhesionAddedEventArgs(List<double> adhesionValues, List<double> preloadValues)
-        {
-            this.adhesionValues = adhesionValues;
-            this.preloadValues = preloadValues;
-        }
-
-        public List<double> adhesionValues { get; }
-
-        public List<double> preloadValues { get; }
-    }
+   
 }

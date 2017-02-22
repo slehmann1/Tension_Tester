@@ -5,7 +5,7 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 
-namespace AdhesionTest
+namespace TensionTest
 {
     public class MainViewModel
     {

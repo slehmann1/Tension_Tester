@@ -4,9 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
-using AdhesionTest.Properties;
+using TensionTest.Properties;
 
-namespace AdhesionTest
+namespace TensionTest
 {
     /// <summary>
     ///     Interaction logic for runSelection.xaml
@@ -70,7 +70,7 @@ namespace AdhesionTest
         {
             var trial = new trialManager();
             trial = updateTrialSettings(trial);
-            MainWindow.mainFrame.Navigate(trial);
+            MainWindow.mainFrame.Navigate(new trialViewer(trial));
         }
 
 

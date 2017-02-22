@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AdhesionTest
+namespace TensionTest
 {
     class baselineManager
     {
-        const int numDeflectionDatum =3; //The number of datum required to be outside of the range before a deflection is recognised
-        const int numReturnDatum = 10; //The number of datum required to be within the range before a return to baseline is recognised
-        const double deflectionAmount = 0.1;
+        const int numDeflectionDatum =30; //The number of datum required to be outside of the range before a deflection is recognised
+        const int numReturnDatum = 100; //The number of datum required to be within the range before a return to baseline is recognised
+        const double deflectionAmount = 100;
         private static bool waitingForDeflection = false;
         private static bool returningToBaseline = false;
         private static double baseline;
@@ -50,7 +50,7 @@ namespace AdhesionTest
 
             while (true)
             {
-                Console.WriteLine(currSuccessiveDatum);
+              //  Console.WriteLine(currSuccessiveDatum);
                 if (currSuccessiveDatum >= numReturnDatum)
                 {
                     currSuccessiveDatum = 0;
@@ -62,7 +62,7 @@ namespace AdhesionTest
         }
 
         /// <summary>
-        ///     An event that fires when data has been acquired, checks whether or not the preload has been reached
+        ///     An event that fires when data has been acquired
         /// </summary>
         protected static void dataAcquired(object Sender, EventArgs e)
         {

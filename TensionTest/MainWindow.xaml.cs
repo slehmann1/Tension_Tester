@@ -2,12 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AdhesionTest.Properties;
+using TensionTest.Properties;
 using MahApps.Metro.Controls;
 using System.IO;
 using System.Reflection;
 
-namespace AdhesionTest
+namespace TensionTest
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml

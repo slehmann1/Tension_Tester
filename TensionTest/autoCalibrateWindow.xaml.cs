@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using MahApps.Metro.Controls;
 
-namespace AdhesionTest
+namespace TensionTest
 {
     /// <summary>
     ///     This class defines the autocalibration function, which allows for the semi-automatic callibration of the normal
@@ -16,8 +16,8 @@ namespace AdhesionTest
 
         private const int EXTRAWAITTIME = 250; // How many ms to wait between steps, this time is unsampled
         private const string unweightedText = "Remove all weights and loads from the normal force probe";
-        private const string weightedText = "Add a 1 gram weight to the normal probe";
-        private const double targetValue = -9.80665; //Gravitational acceleration constant
+        private const string weightedText = "Add a 50 gram weight to the normal probe";
+        private const double targetValue = -490.3; //Gravitational acceleration constant
         private readonly calibration caller;
         private bool unweightedComplete; //whether or not the unweighted operation is finished
 

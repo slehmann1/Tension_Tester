@@ -3,9 +3,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AdhesionTest.Properties;
+using TensionTest.Properties;
 
-namespace AdhesionTest
+namespace TensionTest
 {
     /// <summary>
     ///     Interaction logic for calibration.xaml
