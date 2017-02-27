@@ -9,13 +9,12 @@ namespace TensionTest
 {
     public class trialManager
     {
-        
-
         //Definitions of the axes, they are defined this way for backwards compatibility
         protected const int ZAXIS = 1;
         protected const int XAXIS = 2;
         protected const int YAXIS = 3;
         private const double ACCELERATION = 5;
+        private List<double> positions;
         protected static espManager esp;
         /// <summary>
         /// The amount of time allowed to return to a baseline
@@ -36,6 +35,7 @@ namespace TensionTest
             {
                 esp = generateEspManager();
             }
+            positions = new List<double>();
             esp.changeUnits(1, espManager.unitOption.millimeter);
             esp.changeUnits(2, espManager.unitOption.millimeter);
             esp.changeUnits(3, espManager.unitOption.millimeter);
@@ -53,7 +53,7 @@ namespace TensionTest
         /// </summary>
         public bool overrideTrialDefaults { set; protected get; } = false;
 
-        
+
 
 
         public bool collectFullData { get; set; }
@@ -61,7 +61,7 @@ namespace TensionTest
 
 
 
-        
+
 
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace TensionTest
             Console.Write("DEFLECTION ESTABLISHED");
             //begin downwards motion
             esp.motorOff(XAXIS);
-            esp.setVelocity(ZAXIS, velocity/1000);
+            esp.setVelocity(ZAXIS, velocity / 1000);
             esp.moveIndefinitely(ZAXIS, espManager.travelOption.negative);
             Console.Write("MOVING");
             //run deflection before return to prevent return from being immediately triggered
@@ -167,9 +167,8 @@ namespace TensionTest
         /// </summary>
         protected virtual void dataAcquired(object Sender, EventArgs e)
         {
-            //not required, included for convenience
-
-            //var force = MainViewModel.dataAcquirer.dataPoints[MainViewModel.dataAcquirer.dataPoints.Count - 1].normalForce;
+            //add the position of the zaxis
+            positions.Add(esp.getCurrentPosition(ZAXIS));
         }
 
         /// <summary>
@@ -195,11 +194,12 @@ namespace TensionTest
             double maxForceTime = 0;
             Console.WriteLine("Outputting full data");
             fullOutput += Environment.NewLine + "Full Data:" + Environment.NewLine;
-            fullOutput += "Seconds,Normal Force" + Environment.NewLine;
+            fullOutput += "Seconds,Normal Force (mN),Actual Position (μm),Displacement (μm)" + Environment.NewLine;
             for (var i = 0; i < MainViewModel.dataAcquirer.dataPoints.Count; i++)
             {
                 fullOutput += MainViewModel.dataAcquirer.dataPoints[i].time + "," +
-                          MainViewModel.dataAcquirer.dataPoints[i].normalForce + Environment.NewLine;
+                          MainViewModel.dataAcquirer.dataPoints[i].normalForce + ","
+                          + positions[i] + "," + (positions[i] - positions[0]) + Environment.NewLine;
                 if (Math.Abs(MainViewModel.dataAcquirer.dataPoints[i].normalForce) > Math.Abs(maxForce))
                 {
                     maxForce = MainViewModel.dataAcquirer.dataPoints[i].normalForce;
@@ -251,7 +251,7 @@ namespace TensionTest
             return ""; //no specifier needed, don't return one
         }
 
-   
+
 
         private espManager generateEspManager()
         {
@@ -314,5 +314,5 @@ namespace TensionTest
         }
     }
 
-   
+
 }
