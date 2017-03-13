@@ -14,8 +14,8 @@ namespace TensionTest
         protected const int XAXIS = 2;
         protected const int YAXIS = 3;
         private const double ACCELERATION = 5;
-        private List<double> positions;
         protected static espManager esp;
+        public List<double[]> strainData;
         /// <summary>
         /// The amount of time allowed to return to a baseline
         /// </summary>
@@ -24,6 +24,7 @@ namespace TensionTest
 
         public trialManager()
         {
+            strainData = new List<double[]>();
             try
             {
                 if (!esp.initialized)
@@ -35,7 +36,6 @@ namespace TensionTest
             {
                 esp = generateEspManager();
             }
-            positions = new List<double>();
             esp.changeUnits(1, espManager.unitOption.millimeter);
             esp.changeUnits(2, espManager.unitOption.millimeter);
             esp.changeUnits(3, espManager.unitOption.millimeter);
@@ -103,6 +103,10 @@ namespace TensionTest
             Console.WriteLine("Trial Began");
             MainViewModel.dataAcquirer.dataAcquiredEvent += dataAcquired;
 
+            //Reset data
+            strainData.Clear();
+            MainViewModel.dataAcquirer.dataPoints.Clear();
+
             baselineManager.establishDeflectionBaseline();
             Console.Write("DEFLECTION ESTABLISHED");
             //begin downwards motion
@@ -128,6 +132,7 @@ namespace TensionTest
         protected void trialComplete()
         {
             Application.Current.Dispatcher.Invoke(delegate { MainWindow.mainFrame.Navigate(new trialComplete()); });
+            baselineManager.returningToBaseline = false;
         }
 
         /// <summary>
@@ -168,7 +173,10 @@ namespace TensionTest
         protected virtual void dataAcquired(object Sender, EventArgs e)
         {
             //add the position of the zaxis
-            positions.Add(esp.getCurrentPosition(ZAXIS));
+            Console.Write("BEGIN");
+            double position = esp.getCurrentPosition(ZAXIS);
+            strainData.Add(new double[2] { (DateTime.Now - MainViewModel.dataAcquirer.start).TotalSeconds, position });
+            Console.Write("END");
         }
 
         /// <summary>
@@ -194,16 +202,40 @@ namespace TensionTest
             double maxForceTime = 0;
             Console.WriteLine("Outputting full data");
             fullOutput += Environment.NewLine + "Full Data:" + Environment.NewLine;
-            fullOutput += "Seconds,Normal Force (mN),Actual Position (μm),Displacement (μm)" + Environment.NewLine;
-            for (var i = 0; i < MainViewModel.dataAcquirer.dataPoints.Count; i++)
+            fullOutput += "Seconds,Normal Force (mN), , Seconds, Actual Position (micrometres), Absolute Displacement (micrometres)" + Environment.NewLine;
+            int minIndex = Math.Min(MainViewModel.dataAcquirer.dataPoints.Count, strainData.Count);
+            for (var i = 0; i < minIndex; i++)
             {
+
                 fullOutput += MainViewModel.dataAcquirer.dataPoints[i].time + "," +
-                          MainViewModel.dataAcquirer.dataPoints[i].normalForce + ","
-                          + positions[i] + "," + (positions[i] - positions[0]) + Environment.NewLine;
+                MainViewModel.dataAcquirer.dataPoints[i].normalForce + "," + "," + strainData[i][0] + "," + strainData[i][1] +
+                "," + Math.Abs(strainData[i][1] - strainData[0][1]) + Environment.NewLine;
+
                 if (Math.Abs(MainViewModel.dataAcquirer.dataPoints[i].normalForce) > Math.Abs(maxForce))
                 {
                     maxForce = MainViewModel.dataAcquirer.dataPoints[i].normalForce;
                     maxForceTime = MainViewModel.dataAcquirer.dataPoints[i].time;
+                }
+            }
+            if (MainViewModel.dataAcquirer.dataPoints.Count > minIndex)
+            { //More datapoints than strain points
+                for (var i = minIndex; i < MainViewModel.dataAcquirer.dataPoints.Count; i++)
+                {
+
+                    fullOutput += MainViewModel.dataAcquirer.dataPoints[i].time + "," +
+                    MainViewModel.dataAcquirer.dataPoints[i].normalForce + Environment.NewLine;
+
+                    if (Math.Abs(MainViewModel.dataAcquirer.dataPoints[i].normalForce) > Math.Abs(maxForce))
+                    {
+                        maxForce = MainViewModel.dataAcquirer.dataPoints[i].normalForce;
+                        maxForceTime = MainViewModel.dataAcquirer.dataPoints[i].time;
+                    }
+                }
+            } else if (strainData.Count > minIndex)
+            {  // more strain points than datapoints
+                for (var i = minIndex; i < strainData.Count; i++)
+                {
+                    fullOutput +=  "," + "," + "," + strainData[i][0] + "," + strainData[i][1] + "," + Math.Abs(strainData[i][1] - strainData[0][1]) + Environment.NewLine;
                 }
             }
             output += "Maximum force:," + maxForce + Environment.NewLine;

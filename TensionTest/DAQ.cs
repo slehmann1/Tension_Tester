@@ -21,7 +21,7 @@ namespace TensionTest
         private readonly acquiredData[] colData = new acquiredData[Constants.NUMSAMPLES];
         private AIChannel normalForceChannel, shearForceChannel;
         private readonly AnalogMultiChannelReader reader;
-        private readonly DateTime start;
+        public readonly DateTime start;
 
         /// <summary>
         ///     Constructs a DAQ object.

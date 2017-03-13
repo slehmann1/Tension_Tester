@@ -530,6 +530,7 @@ namespace TensionTest
         {
             Console.WriteLine("WRITE");
             writeSerialCommand(axisNumber.ToString() + "TP");
+            Console.WriteLine(axisNumber.ToString() + "TP");
             string s = waitForData();
             Console.WriteLine("DATA");
             return Convert.ToDouble(s);
@@ -637,6 +638,7 @@ namespace TensionTest
             {
                 if (initialized)
                 {
+                    Thread.Yield();
                 }
                 else
                 {

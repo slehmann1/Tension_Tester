@@ -13,7 +13,7 @@ namespace TensionTest
         const int numReturnDatum = 100; //The number of datum required to be within the range before a return to baseline is recognised
         const double deflectionAmount = 100;
         private static bool waitingForDeflection = false;
-        private static bool returningToBaseline = false;
+        public static bool returningToBaseline = false;
         private static double baseline;
         const int baselineWaitTime = 500;
         private static int currSuccessiveDatum = 0;
